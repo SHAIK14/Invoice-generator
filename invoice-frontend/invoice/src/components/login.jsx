@@ -22,7 +22,7 @@ const Login = () => {
 
       if (response.status === 200) {
         console.log(data.token);
-        navigate("/product");
+        navigate("/ProductPage");
       } else {
         console.error(data.error);
       }
