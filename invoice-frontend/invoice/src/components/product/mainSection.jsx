@@ -87,15 +87,16 @@ const MainSection = () => {
   useEffect(() => {}, [dispatch]);
 
   return (
-    <main className="container mx-auto p-4 max-w-2xl shadow-md rounded-md">
-      <button
-        onClick={handlePrint}
-        className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline-green mb-4 "
-      >
-        Print
-      </button>
-
-      <h1 className="text-2xl font-bold mb-4 text-center">Invoice Generator</h1>
+    <main className="container mx-auto p-4 max-w-2xl shadow-md rounded-md mt-20">
+      <div className="flex justify-between items-center mb-4 pb-10 pt-5">
+        <h1 className="text-3xl font-bold">Invoice Generator</h1>
+        <button
+          onClick={handlePrint}
+          className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
+        >
+          Print
+        </button>
+      </div>
 
       <table className="w-full mb-4">
         <thead>
@@ -134,7 +135,8 @@ const MainSection = () => {
             onChange={(e) =>
               setNewProduct({ ...newProduct, name: e.target.value })
             }
-            placeholder="Product Name"
+            placeholder=" Enter Product Name"
+            required
             className="p-2 flex-1 mr-2"
           />
           <input
