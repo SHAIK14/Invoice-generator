@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-// src/components/Login.js
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";

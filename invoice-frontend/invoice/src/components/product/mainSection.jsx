@@ -1,6 +1,8 @@
-// src/components/MainSection.js
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setInvoiceData } from "../../redux/slices/invoiceSlice";
 
 const MainSection = () => {
   const [products, setProducts] = useState([]);
@@ -10,6 +12,10 @@ const MainSection = () => {
     rate: 0,
     total: "",
   });
+  const dispatch = useDispatch();
+  const invoiceData = useSelector((state) => state.invoice.invoiceData);
+
+  const Navigate = useNavigate();
 
   const handleAddProduct = (e) => {
     e.preventDefault();
@@ -52,12 +58,15 @@ const MainSection = () => {
     const validityDate = new Date(currentDate);
     validityDate.setDate(currentDate.getDate() + 15);
 
-    const validUntilDate = validityDate.toISOString();
+    const validUntilDate = validityDate.toLocaleDateString();
     setValidUntil(validUntilDate);
   }, [totalProductsCost, gst, grandTotal]);
+  useEffect(() => {
+    console.log("Updated Invoice Data:", invoiceData);
+  }, [invoiceData]);
   const handlePrint = async () => {
     try {
-      await axios.post("http://localhost:5000/api/invoices", {
+      const response = await axios.post("http://localhost:5000/api/invoices", {
         products,
         totalProductsCost,
         gst,
@@ -65,11 +74,18 @@ const MainSection = () => {
         validUntil,
       });
 
-      console.log("Data sent to the backend successfully!");
+      const { message, invoice } = response.data;
+
+      console.log(message);
+      console.log("Invoice Data:", invoice);
+      dispatch(setInvoiceData(invoice));
+      Navigate("/InvoiceDetails");
     } catch (error) {
       console.error("Error sending data to the backend:", error);
     }
   };
+  useEffect(() => {}, [dispatch]);
+
   return (
     <main className="container mx-auto p-4 max-w-2xl shadow-md rounded-md">
       <button
@@ -78,6 +94,7 @@ const MainSection = () => {
       >
         Print
       </button>
+
       <h1 className="text-2xl font-bold mb-4 text-center">Invoice Generator</h1>
 
       <table className="w-full mb-4">
@@ -165,14 +182,6 @@ const MainSection = () => {
       <div className="mt-4 text-center">
         <span className="text-gray-700">Valid till:</span>{" "}
         <span className="font-bold">{validUntil}</span>
-      </div>
-
-      <div className="mt-8 text-center">
-        <h2 className="text-lg font-bold mb-2">Terms and Conditions</h2>
-        <p>
-          This is a sample invoice generator. All products and rates are for
-          demonstration purposes only.
-        </p>
       </div>
     </main>
   );
