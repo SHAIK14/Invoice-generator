@@ -11,10 +11,13 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://invoice-generator-xuny.onrender.com/api/login",
+        {
+          email,
+          password,
+        }
+      );
 
       const data = response.data;
 

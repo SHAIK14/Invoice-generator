@@ -66,13 +66,16 @@ const MainSection = () => {
   }, [invoiceData]);
   const handlePrint = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/invoices", {
-        products,
-        totalProductsCost,
-        gst,
-        grandTotal,
-        validUntil,
-      });
+      const response = await axios.post(
+        "https://invoice-generator-xuny.onrender.com/api/invoices",
+        {
+          products,
+          totalProductsCost,
+          gst,
+          grandTotal,
+          validUntil,
+        }
+      );
 
       const { message, invoice } = response.data;
 
